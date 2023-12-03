@@ -8,6 +8,18 @@ import (
 	"strconv"
 )
 
+var digitWords = map[string]byte{
+	"one":   '1',
+	"two":   '2',
+	"three": '3',
+	"four":  '4',
+	"five":  '5',
+	"six":   '6',
+	"seven": '7',
+	"eight": '8',
+	"nine":  '9',
+}
+
 func parseInput(filename string) ([]string, error) {
 	file, err := os.Open(filename)
 	if err != nil {
@@ -46,6 +58,16 @@ func main() {
 		for i := 0; i < len(line); i++ {
 			if isDigit(line[i]) {
 				digits = append(digits, line[i])
+			} else {
+				word := ""
+				for j := i; j < len(line); j++ {
+					word += string(line[j])
+					if v, ok := digitWords[word]; ok {
+						digits = append(digits, v)
+						i += len(word) - 1
+						break
+					}
+				}
 			}
 		}
 		first := digits[0]
@@ -54,6 +76,8 @@ func main() {
 
 		sum, _ := strconv.Atoi(sumStr)
 
+		// print the sum of the first and last digits
+		fmt.Printf("%s %s %s %s\n", string(digits), string(first), string(last), sumStr)
 		total += sum
 	}
 
