@@ -45,10 +45,18 @@ func parseInput() []Race {
 func main() {
 	races := parseInput()
 
+	megaRace := Race{}
+	megaDistance := ""
+	megaTime := ""
 	totalWays := 1
 	for _, race := range races {
 		totalWays *= race.calculateWaysToWin()
+		megaDistance += strconv.Itoa(race.distance)
+		megaTime += strconv.Itoa(race.time)
+		megaRace.distance, _ = strconv.Atoi(megaDistance)
+		megaRace.time, _ = strconv.Atoi(megaTime)
 	}
 
 	fmt.Println(totalWays)
+	fmt.Println(megaRace.calculateWaysToWin())
 }
